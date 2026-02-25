@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WEB-project| StockPulse</title>
+    <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+
+    <style>
+        :root {
+            --bg: #0b0c10;
+            --sidebar: #161b22;
+            --card: #1a1d26;
+            --accent: #7c4dff;
+            --text: #e6edf3;
+            --neon-blue: #00d2ff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .side-panel {
+            width: 280px;
+            background: var(--sidebar);
+            padding: 25px;
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-dashboard {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #8b949e;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .metric-val {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .chart-box {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #30363d;
+        }
+
+        #priceChart {
+            height: 400px;
+        }
+
+        #volumeChart {
+            height: 150px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: white;
+            margin-top: 5px;
+        }
+
+        .btn-scan {
+            background: linear-gradient(45deg, var(--accent), var(--neon-blue));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-watchlist {
+            background: rgba(124, 77, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .list-item {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="side-panel">
+    <h2 style="color: var(--neon-blue);">StockPulse</h2>
+
+    <div>
+        <div class="metric-label">Ticker Entry</div>
+        <input type="text" id="tickerInput" placeholder="e.g. NVDA">
+        <button class="btn-scan" onclick="fetchStock()">INITIALIZE SCAN</button>
+        <button class="btn-watchlist" onclick="addToPortfolio()">+ Add to Watchlist</button>
+    </div>
+
+    <div style="margin-top:auto;">
+        <div class="metric-label">Live Portfolio</div>
+        <div id="portfolio-list"></div>
+    </div>
+</div>
+
+<div class="main-dashboard">
+    <div class="metric-row">
+        <div class="metric-card">
+            <div class="metric-label">Price</div>
+            <div class="metric-val" id="main-price">₹0.00</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">High</div>
+            <div class="metric-val" id="main-high">--</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Low</div>
+            <div class="metric-val" id="main-low">--</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Volatility</div>
+            <div class="metric-val" id="volatility-rate">0.00%</div>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <div class="metric-label" id="display-name">ALGORITHMIC TERMINAL</div>
+        <div id="priceChart"></div>
+        <div id="volumeChart"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
